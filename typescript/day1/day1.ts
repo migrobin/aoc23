@@ -1,14 +1,29 @@
 import { readFileSync } from "fs";
 
-const input: string = readFileSync("data", "utf-8");
+const input: string = readFileSync("data1", "utf-8");
 const data = input.split("\n");
 console.log(data);
 
 const part1 = (): string => {
-    for (let line of data) {
-        console.log(line);
+    let solutions: number[] = [];
+    let first: number | undefined = undefined;
+    let last: number | undefined = undefined;
+    let char = "";
+
+    for (const line of data) {
+        for (char of line) {
+            if (char >= "0" && char <= "9") {
+                if (first === undefined) first = parseInt(char);
+                last = parseInt(char);
+            }
+        }
+        if (typeof first === "number" && typeof last === "number") {
+            solutions.push(parseInt(first.toString() + last.toString()));
+            first = undefined;
+        }
     }
-    return "part1";
+    console.log(solutions);
+    return solutions.reduce((a, b) => a + b, 0).toString();
 };
 
 const part2 = (): string => {

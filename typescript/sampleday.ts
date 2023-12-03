@@ -1,8 +1,6 @@
 import { readFileSync } from "fs";
 
-const input: string = readFileSync("data", "utf-8");
-const data = input.split("\n");
-console.log(data);
+const input: string[] = readFileSync("data", "utf-8").split("\n");
 
 const part1 = (): string => {
     for (let line of data) {

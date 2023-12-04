@@ -1,7 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = require("fs");
-const input = (0, fs_1.readFileSync)("data1", "utf-8");
+import { readFileSync } from "fs";
+const input = readFileSync("data1", "utf-8");
 const data = input.split("\n").map((line) => line.split(":"));
 const result = [];
 const part1 = () => {

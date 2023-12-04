@@ -1,8 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = require("fs");
+import { readFileSync } from "fs";
 const part1 = () => {
-    const input = (0, fs_1.readFileSync)("data1", "utf-8");
+    const input = readFileSync("data1", "utf-8");
     const data = input.split("\n");
     //console.log(data);
     let solutions = [];
@@ -26,7 +24,7 @@ const part1 = () => {
     return solutions.reduce((a, b) => a + b, 0).toString();
 };
 const part2 = () => {
-    const input = (0, fs_1.readFileSync)("data2", "utf-8");
+    const input = readFileSync("data2", "utf-8");
     const data = input.split("\n");
     // console.log(data);
     let solutions = [];

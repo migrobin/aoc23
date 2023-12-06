@@ -1,24 +1,6 @@
 import { readFileSync } from "fs";
 
-//Time:      7  15   30
-//Distance:  9  40  200
-
-function transpose(matrix: number[][]): number[][] {
-    const transposed: number[][] = [[]];
-
-    for (let row = 0; row < matrix.length; row++) {
-        transposed.push([]);
-    }
-
-    for (let row = 0; row < matrix.length; row++) {
-        for (let col = 0; col < matrix[0].length; col++) {
-            transposed[col].push(matrix[row][col]);
-        }
-    }
-    return transposed;
-}
-
-const input: number[][] = readFileSync("data", "utf-8")
+const input: number[][] = readFileSync("data1", "utf-8")
     .split("\n")
     .map((line) =>
         line
@@ -34,14 +16,37 @@ const input: number[][] = readFileSync("data", "utf-8")
     )
     .flat();
 
-console.log(input);
-console.log(transpose(input));
+function transpose(matrix: number[][]): number[][] {
+    const transposed: number[][] = [[]];
 
-const part1 = (): string => {
-    for (let line of input) {
-        //        console.log(line);
+    for (let col = 0; col < matrix[0].length - 1; col++) {
+        transposed.push([]);
     }
-    return "part1";
+
+    for (let row = 0; row < matrix.length; row++) {
+        for (let col = 0; col < matrix[0].length; col++) {
+            transposed[col].push(matrix[row][col]);
+        }
+    }
+    return transposed;
+}
+const part1 = (): string => {
+    function racesWon(race: number[]): number {
+        let [time, record] = race;
+
+        let distance = 0;
+        let count = 0;
+        for (let pressed = 0; pressed <= record; pressed++) {
+            distance = (time - pressed) * pressed;
+            if (distance > record) count++;
+        }
+        return count;
+    }
+
+    const data = transpose(input);
+    console.log(data);
+
+    return data.reduce((acc, next) => (acc *= racesWon(next)), 1).toString();
 };
 
 const part2 = (): string => {

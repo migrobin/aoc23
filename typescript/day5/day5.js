@@ -74,7 +74,7 @@ const part2 = () => {
     //  console.log("mapper 82", mapper(82, 0));
     // console.log(seenSeed);
     console.log("seeds", count);
-    return (min - 1).toString();
+    return min.toString();
 };
 //console.log("Day 1 - Part 1:", part1());
 //old score 57451710 off by one => 57451709

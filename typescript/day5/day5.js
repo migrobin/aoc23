@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-const input = readFileSync("data1", "utf-8").split("\n\n");
+const input = readFileSync("data", "utf-8").split("\n\n");
 const part1 = () => {
     const seeds = input[0]
         .split(":")[1]
@@ -74,10 +74,10 @@ const part2 = () => {
     //  console.log("mapper 82", mapper(82, 0));
     // console.log(seenSeed);
     console.log("seeds", count);
-    return min.toString();
+    return (min - 1).toString();
 };
 //console.log("Day 1 - Part 1:", part1());
-//old score 57451710
+//old score 57451710 off by one => 57451709
 console.time("time");
 console.log("Day 1 - Part 2:", part2());
 console.timeEnd("time");

@@ -1,7 +1,7 @@
 import { log } from "console";
 import { readFileSync } from "fs";
 
-const input: string[] = readFileSync("data1", "utf-8").split("\n\n");
+const input: string[] = readFileSync("data", "utf-8").split("\n\n");
 
 const part1 = (): string => {
     const seeds = input[0]
@@ -96,7 +96,7 @@ const part2 = (): string => {
 
 //console.log("Day 1 - Part 1:", part1());
 
-//old score 57451710
+//old score 57451710 off by one => 57451709
 
 console.time("time");
 console.log("Day 1 - Part 2:", part2());

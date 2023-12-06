@@ -69,9 +69,6 @@ const part2 = (): string => {
 
     function racesWon(race: number[]): number {
         let [t, r] = race; // race duration and record
-        let p = 0; // pressed time
-
-        let count = 0;
 
         //   press*(race duration-press) > record
         //   equation  -p**2+t*p-r=0

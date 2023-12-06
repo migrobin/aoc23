@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-const input = readFileSync("data", "utf-8").split("\n\n");
+const input = readFileSync("data1", "utf-8").split("\n\n");
 const part1 = () => {
     const seeds = input[0]
         .split(":")[1]
@@ -49,7 +49,7 @@ const part2 = () => {
         for (let i = 0; i < data[turnIndex].length; i++) {
             if (seed < data[turnIndex][i][1])
                 continue;
-            if (seed >= data[turnIndex][i][1] && seed <= data[turnIndex][i][1] + data[turnIndex][i][2]) {
+            if (seed >= data[turnIndex][i][1] && seed < data[turnIndex][i][1] + data[turnIndex][i][2]) {
                 return mapper(data[turnIndex][i][0] - data[turnIndex][i][1] + seed, turnIndex + 1);
             }
         }

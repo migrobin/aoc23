@@ -1,7 +1,7 @@
 import { log } from "console";
 import { readFileSync } from "fs";
 
-const input: string[] = readFileSync("data", "utf-8").split("\n\n");
+const input: string[] = readFileSync("data1", "utf-8").split("\n\n");
 
 const part1 = (): string => {
     const seeds = input[0]
@@ -63,7 +63,7 @@ const part2 = (): string => {
         for (let i = 0; i < data[turnIndex].length; i++) {
             if (seed < data[turnIndex][i][1]) continue;
 
-            if (seed >= data[turnIndex][i][1] && seed <= data[turnIndex][i][1] + data[turnIndex][i][2]) {
+            if (seed >= data[turnIndex][i][1] && seed < data[turnIndex][i][1] + data[turnIndex][i][2]) {
                 return mapper(data[turnIndex][i][0] - data[turnIndex][i][1] + seed, turnIndex + 1);
             }
         }

@@ -120,6 +120,7 @@ const part1 = (): number => {
 };
 
 const part2 = (): number => {
+    const points = { A: 14, K: 13, Q: 12, J: 1, T: 10, "9": 9, "8": 8, "7": 7, "6": 6, "5": 5, "4": 4, "3": 3, "2": 2 };
     type game = [game: string, bid: number];
     type gameHashMapType = { [type: string]: game[] };
 
@@ -133,11 +134,11 @@ const part2 = (): number => {
         high: [],
     };
 
-    function findUniques(game: string): number {
+    function findUniques(game: string[]): number {
         type uniqueType = { [char: string]: number };
         const unique: uniqueType = {};
 
-        game.split("").forEach((char) => {
+        game.forEach((char) => {
             if (!unique[char]) {
                 unique[char] = 1;
             } else {
@@ -153,11 +154,30 @@ const part2 = (): number => {
         return count;
     }
 
-    function processGame(game: game) {
-        const temp = findUniques(game[0]);
-        const tempSet = new Set(game[0]);
+    const sortByPoints = (game: string[]): string[] => game.sort((a, b) => points[b] - points[a]);
 
-        // console.log(temp);
+    const sortByMostCommonThenHighest = (input: string[]): string[] => {
+        const inputWithoutJ = input.filter((char) => char !== "J");
+
+        const game = sortByPoints(inputWithoutJ);
+
+        const counter: { [card: string]: number } = {};
+
+        for (let i = 0; i < game.length; i++) {
+            counter[game[i]] ? counter[game[i]]++ : (counter[game[i]] = 1);
+        }
+
+        return game.sort((a, b) => counter[b] - counter[a]);
+    };
+
+    function processGame(game: game): void {
+        const temp = game[0].split("");
+
+        const sorted = temp.map((char) => (char === "J" ? sortByMostCommonThenHighest(temp)[0] : char));
+
+        const uniques = findUniques(sorted);
+        const tempSet = new Set(sorted);
+
         //         uniques    set
         //five   55555 =>0     1
         //four   34444 =>1     2
@@ -167,7 +187,7 @@ const part2 = (): number => {
         //1 pair 99123 =>3
         //high   12345 =>5
 
-        switch (temp) {
+        switch (uniques) {
             case 0: {
                 if (tempSet.size === 1) {
                     hashMap["five"].push(game);
@@ -209,8 +229,6 @@ const part2 = (): number => {
 
     for (let type in hashMap) {
         hashMap[type].sort((a: game, b: game) => {
-            const points = { A: 14, K: 13, Q: 12, J: 11, T: 10, "9": 9, "8": 8, "7": 7, "6": 6, "5": 5, "4": 4, "3": 3, "2": 2 };
-
             for (let i = 0; i < a[0].length; i++) {
                 if (a[0][i] === b[0][i]) continue;
 
@@ -232,7 +250,6 @@ const part2 = (): number => {
         total += sum;
     }
 
-    //console.log("sorted hashmap", hashMap);
     return total;
 };
 

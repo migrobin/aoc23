@@ -206,7 +206,7 @@ const part2 = (): number => {
                     break;
                 }
                 default:
-                    throw new Error("error");
+                    this.current = { ...this.start };
             }
         }
 
@@ -215,20 +215,27 @@ const part2 = (): number => {
             this.prev = this.start;
             this.current = this.findFirstPipe(this.findStart());
             data[this.start.row][this.start.col].mark = "B";
+            let loopNumber = 0;
+            while (loopNumber < 2) {
+                if (data[this.current.row][this.current.col].char === "S") loopNumber++;
 
-            while (data[this.current.row][this.current.col].char !== "S") {
+                if (loopNumber === 1) {
+                    console.log("in");
+                    findPossibleNeighbors(this.current);
+                }
+
                 this.temp = { ...this.current };
                 data[this.current.row][this.current.col].mark = "B";
                 this.gotoNextPipe();
                 this.prev = this.temp;
                 this.size++;
             }
+
             return this.size;
         }
     }
 
     const mazeRunner = new Runner();
-
     const toCheck: position[] = [];
 
     function findPossibleNeighbors(pos: position): void {
@@ -243,16 +250,24 @@ const part2 = (): number => {
 
         for (let i = pos.row - 1 + offsetRow; i < pos.row + 2 + offsetRow; i++) {
             for (let j = pos.col - 1 + offsetCol; j < pos.col + 2 + offsetCol; j++) {
-                if (data[i][j].mark !== "x" && data[i][j].mark !== "B") toCheck.push({ row: i, col: j });
+                if (data[i][j].mark === ".") toCheck.push({ row: i, col: j });
+
+                if (data[i][j].char === "L" && data[i][j].char === "F") toCheck.push({ row: i, col: j });
+                if (data[i][j].char === "J" && data[i][j].char === "7") toCheck.push({ row: i, col: j });
+                if (data[i][j].char === "-" && data[i][j].char === "-") toCheck.push({ row: i, col: j });
+                if (data[i][j].char === "J" && data[i][j].char === "L") toCheck.push({ row: i, col: j });
+                if (data[i][j].char === "7" && data[i][j].char === "F") toCheck.push({ row: i, col: j });
+                if (data[i][j].char === "|" && data[i][j].char === "|") toCheck.push({ row: i, col: j });
             }
         }
     }
 
     let temp: position | undefined;
-    function bfs(pos: position): void {
+
+    function dfs(pos: position): void {
         toCheck.push(pos);
         while (toCheck.length > 0) {
-            temp = toCheck.pop();
+            temp = toCheck.shift();
             if (temp) {
                 data[temp.row][temp.col].mark = "x";
                 //   console.log(toCheck);
@@ -264,7 +279,7 @@ const part2 = (): number => {
 
     mazeRunner.loop();
 
-    for (let row = 0; row < data.length; row++) {
+    /*  for (let row = 0; row < data.length; row++) {
         if (data[row][0].mark !== "B") bfs({ row, col: 0 });
         if (data[row][data[0].length - 1].mark !== "B") bfs({ row, col: data[0].length - 1 });
 
@@ -272,9 +287,10 @@ const part2 = (): number => {
             if (data[0][col].mark !== "B") bfs({ row: 0, col });
             if (data[data.length - 1][col].mark !== "B") bfs({ row: data.length - 1, col });
         }
-    }
+    } */
 
     console.table(data.map((el) => el.map((el) => el.mark)));
+    //console.log(data[49 - 1][96]);
 
     return 1;
 };
@@ -282,4 +298,5 @@ const part2 = (): number => {
 //console.log("Day 1 - Part 1:", part1());
 console.time();
 console.log("Day 1 - Part 2:", part2());
+
 console.timeEnd();
